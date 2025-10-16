@@ -8,10 +8,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class RockmartServiceApplication {
 
 	public static void main(String[] args) {
-		Dotenv env = Dotenv.load();
-		env.get("DB_URL");
-		env.get("DB_USERNAME");
-		env.get("DB_PASSWORD");
+//		Dotenv env = Dotenv.load();
+//		env.get("DB_URL");
+//		env.get("DB_USERNAME");
+//		env.get("DB_PASSWORD");
 		SpringApplication.run(RockmartServiceApplication.class, args);
 	}
 }
