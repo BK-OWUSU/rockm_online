@@ -7,12 +7,12 @@ spring:
   application:
     name: RockmartService
   datasource:
-    url: jdbc:postgresql://localhost:5432/rockmart_Db
-    username: postgres
-    password: 12345
-#    url: jdbc:postgresql://dpg-d3oi06u3jp1c73c0ql5g-a/db_rockmart
-#    username: rockmart
-#    password: 8OJs6CPBY3OoSrXltDX8ispPqwYckHxQ
+#    url: jdbc:postgresql://localhost:5432/rockmart_Db
+#    username: postgres
+#    password: 12345
+    url: jdbc:postgresql://dpg-d3oi06u3jp1c73c0ql5g-a/db_rockmart
+    username: rockmart
+    password: 8OJs6CPBY3OoSrXltDX8ispPqwYckHxQ
   jpa:
     hibernate:
       ddl-auto: update
