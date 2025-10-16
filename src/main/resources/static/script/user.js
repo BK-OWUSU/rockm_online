@@ -220,7 +220,7 @@ let dailySoldProducts = [];
 //FETCH ALL TOTAL SALES
 async function fetchTotalSale () {
     try {
-        let response = await fetch('http://localhost:8081/api/sale/total_sale', {
+        let response = await fetch('https://rockpos.onrender.com/api/sale/total_sale', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -243,7 +243,7 @@ fetchTotalSale ();
 //FETCH ALL TOTAL SOLD PRODUCT QUANTITY
 async function fetchTotalSoldQuantityProduct () {
     try {
-        let response = await fetch('http://localhost:8081/api/sale/total_quantity', {
+        let response = await fetch('https://rockpos.onrender.com/api/sale/total_quantity', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -264,7 +264,7 @@ fetchTotalSoldQuantityProduct();
 //FETCH ALL TOTAL AVAILABLE PRODUCTS QUANTITY
 async function fetchTotalAvailableProduct () {
     try {
-        let response = await fetch('http://localhost:8081/api/product/get_available', {
+        let response = await fetch('https://rockpos.onrender.com/api/product/get_available', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -286,7 +286,7 @@ fetchTotalAvailableProduct();
 //FETCH ALL RESTOCK NOTIFICATIONS
 async function fetchRestockNotification () {
     try {
-        let response = await fetch('http://localhost:8081/api/stock/notify', {
+        let response = await fetch('https://rockpos.onrender.com/api/stock/notify', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -331,7 +331,7 @@ fetchRestockNotification();
 
 async function getSoldProducts() {
     try {
-        let response = await fetch('http://localhost:8081/api/sale/sold_products', {
+        let response = await fetch('https://rockpos.onrender.com/api/sale/sold_products', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -373,7 +373,7 @@ getSoldProducts();
 //========================SALES SECTION================================
 async function fetchProducts() {
     try {
-        let response = await fetch('http://localhost:8081/api/product/get_all', {
+        let response = await fetch('https://rockpos.onrender.com/api/product/get_all', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -389,7 +389,7 @@ async function fetchProducts() {
 
 async function fetchCategories () {
     try {
-        let response = await fetch('http://localhost:8081/api/category/get', {
+        let response = await fetch('https://rockpos.onrender.com/api/category/get', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -714,7 +714,7 @@ submit_cart_btn.addEventListener('click', async()=> {
     total_price.value = '';
 
     try {
-        const response = await fetch('http://localhost:8081/api/sale/cart', {
+        const response = await fetch('https://rockpos.onrender.com/api/sale/cart', {
             method: 'POST',
             headers: {
                 'Accept': 'application/json',
@@ -762,7 +762,7 @@ const transaction_table = document.getElementById('transaction_section_table_bod
 const transaction_search = document.getElementById('transaction_search');
 async function getDailyCustomerTransactions() {
     try {
-        const response = await fetch('http://localhost:8081/api/sale/sale_trans', {
+        const response = await fetch('https://rockpos.onrender.com/api/sale/sale_trans', {
             method: 'GET',
             headers: {
                 'Accept': 'application/json',
@@ -1128,7 +1128,7 @@ function stock_EditFunction(e) {
                 user: content_id
             }
             try {
-                let response = await fetch(`http://localhost:8081/api/product/stock/update_one`,{
+                let response = await fetch(`https://rockpos.onrender.com/api/product/stock/update_one`,{
                     method:'PUT',
                     headers: {
                         'Accept': 'application/json',
@@ -1268,7 +1268,7 @@ stock_batch_submit_btn.addEventListener('click', async ()=> {
 
     stock_multiple_section_table.innerHTML = '';
     try {
-        let response = await fetch(`http://localhost:8081/api/product/stock/update_batch`,{
+        let response = await fetch(`https://rockpos.onrender.com/api/product/stock/update_batch`,{
             method:'PUT',
             headers: {
                 'Accept': 'application/json',
@@ -1437,7 +1437,7 @@ change_password_submit_btn.addEventListener('click', async()=> {
         newPassword: new_password,
     }
     try {
-        let response = await fetch('http://localhost:8081/api/users/change_password', {
+        let response = await fetch('https://rockpos.onrender.com/api/users/change_password', {
             method: 'PUT',
             headers: {
                 'Accept': 'application/json',
