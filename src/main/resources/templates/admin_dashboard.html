@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" th:href="@{css/style.css}">
+    <link rel="stylesheet" th:href="@{css/admin.css}">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/admin.css">
+    <link rel="stylesheet" href="../static/css/style.css">
+    <link rel="stylesheet" href="../static/css/admin.css">
+    <!--IconScout Icons Link-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <!-- Apexcharts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.50.0/apexcharts.min.css" integrity="sha512-YEwcgX5JXVXKtpXI4oXqJ7GN9BMIWq1rFa+VWra73CVrKds7s+KcOfHz5mKzddIOLKWtuDr0FzlTe7LWZ3MTXw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Admin Dashboard</title>
+</head>
+<body>
+<!-- ===========NAVBAR=========== -->
+<nav>
+    <div class="container_2 nav_container">
+        <div class="logo_wrapper">
+            <div class="logo">
+                <a href="#"><img th:src="@{/img/rock_logo.jpg}" alt="logo" src="/"></a>
+            </div>
+            <span class="logo_text">Rockmart</span>
+        </div>
+        <span class="phone_right_menu_icons">
+            <span class="alert_btn">
+                <i class="uil uil-bell"></i>
+                <span id="nav_alerts_number">0</span>
+            </span>
+            <button class="open_menu_btn"><i class="uil uil-list-ui-alt"></i></button>
+        </span>
+        <div class="slide_menu">
+            <div class="slide_menu_content">
+                <span class="phone_close_btn"><i class="uil uil-times"></i></span>
+                <div class="slide_menu_user_account">
+                    <span class="user_account_icon"><i class="uil uil-user-circle"></i></span>
+                    <span th:text="${#authentication.principal.firstname ?: 'N/A'}" class="username"></span>
+                </div>
+                <a class="menu_items_sm active dashboard"><span><i class="uil uil-create-dashboard"></i></span><span class="sidebar_links_sm">Dashboard</span></a>
+                <a class="menu_items_sm transaction"><span><i class="uil uil-transaction"></i></span><span class="sidebar_links_sm">Transactions</span></a>
+                <a class="menu_items_sm invoice"><span><i class="uil uil-invoice"></i></span><span class="sidebar_links_sm">Invoice</span></a>
+                <a class="menu_items_sm customers"><span><i class="uil uil-users-alt"></i></span><span class="sidebar_links_sm">Customers</span></a>
+                <a class="menu_items_sm sales"><span><i class="uil uil-archive-alt"></i></span><span class="sidebar_links_sm">Product</span></a>
+                <a class="menu_items_sm product_stock"><span><i class="uil uil-stretcher"></i></span><span class="sidebar_links_sm">Inventory</span></a>
+                <a class="menu_items_sm product_reports"><span><i class="uil uil-chart-bar-alt"></i></span><span class="sidebar_links_sm">Reports</span></a>
+                <a class="menu_items_sm account"><span><i class="uil uil-cog"></i></span><span class="sidebar_links_sm">Account</span></a>
+                <a th:href="@{/user_dashboard}" class="menu_items_sm sell"><span><i class="uil uil-shopping-cart-alt"></i></span><span class="sidebar_links_sm">Sell</span></a>
+                <a class="menu_items_sm sign_out"><span><i class="uil uil-signout"></i></span><span class="sidebar_links_sm">Sign Out</span></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- ===========NAVBAR=========== -->
+
+<!-- ===========MAIN=========== -->
+<main>
+    <div class="main_container container_2">
+        <!-- SideBar -->
+        <div class="main_sidebar">
+            <div class="sidebar_menu">
+                <div class="sidebar_menu_user_account">
+                    <span class="sidebar_user_account_icon"><i class="uil uil-user-circle"></i></span>
+                    <span class="sidebar_username" th:text="${#authentication.principal.firstname ?: 'N/A'}"></span>
+                </div>
+                <a class="menu_items active dashboard"><span><i class="uil uil-create-dashboard"></i></span><span class="sidebar_links">Dashboard</span></a>
+                <a class="menu_items transaction"><span><i class="uil uil-transaction"></i></span><span class="sidebar_links">Transactions</span></a>
+                <a class="menu_items invoice"><span><i class="uil uil-invoice"></i></span><span class="sidebar_links">Invoice</span></a>
+                <a class="menu_items customers"><span><i class="uil uil-users-alt"></i></span><span class="sidebar_links">Customers</span></a>
+                <a class="menu_items sales"><span><i class="uil uil-archive-alt"></i></span><span class="sidebar_links">Product</span></a>
+                <a class="menu_items product_stock"><span><i class="uil uil-stretcher"></i></span><span class="sidebar_links">Inventory</span></a>
+                <a class="menu_items product_reports"><span><i class="uil uil-chart-bar-alt"></i></span><span class="sidebar_links">Reports</span></a>
+                <a class="menu_items accounts"><span><i class="uil uil-cog"></i></span><span class="sidebar_links">Account</span></a>
+                <a th:href="@{/user_dashboard}" class="menu_items sell"><span><i class="uil uil-shopping-cart-alt"></i></span><span class="sidebar_links">Sell</span></a>
+                <a class="menu_items sign_out"><span><i class="uil uil-signout"></i></span><span class="sidebar_links">Sign Out</span></a>
+            </div>
+        </div>
+        <!-- SideBar -->
+
+        <!-- Main Content -->
+        <div class="main_content">
+            <!-- Dashboard Content -->
+            <div class="content_container content_dashboard" th:id= "'sale_'+${#authentication.principal.id ?: 'N/A'}">
+                <h1 class="dashboard_header">Dashboard</h1>
+                <div class="dashboard_top_bottom_wrapper">
+                    <div class="dashboard_top">
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">A/V Product</span>
+                                <i class="card_icon uil uil-box"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_available_products">0</span>
+                        </div>
+                        <!-- cards -->
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">Sold</span>
+                                <i class="card_icon uil uil-archive"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_total_quantitySold_value">0</span>
+                        </div>
+                        <!-- cards -->
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">Total Sale</span>
+                                <i class="card_icon uil uil-euro-circle"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_total_sale_value"> 0.00</span>
+                        </div>
+                        <!-- cards -->
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">Transactions</span>
+                                <i class="card_icon uil uil-transaction"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_transaction_count">0</span>
+                        </div>
+                        <!-- cards -->
+
+                    </div>
+                    <div class="dashboard_bottom">
+                        <div class="chart_container">
+                            <h2 class="chart_title">Total Products</h2>
+                            <div id="admin_dashboard_chart-bar" class="chart"></div>
+                        </div>
+                        <div class="chart_container">
+                            <h2 class="chart_title">Total Daily Sale</h2>
+                            <div id="admin_dashboard_chart-line" class="chart"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dashboard Content -->
+
+            <!-- Transaction Content -->
+            <div class="content_container transaction_content">
+                <div class="transaction_header">Sale Transactions</div>
+                <div class="transaction_filter_wrapper">
+                    <div class="transaction_filter_left">
+                        <span class="All_transaction_text">Retrieve all transactions: </span>
+                        <button class="btn btn_primary" id="get_all_transactions">Get All Transaction</button>
+                    </div>
+                    <div class="transaction_filter_right">
+                        <div class="transaction_filterDate">
+                            <span class="transactionDate_text">Date: </span>
+                            <label for="transaction_date"><input type="date" name="transaction_date" id="transaction_date" pattern="yyyy-MM-dd"></label>
+                        </div>
+                        <button class="btn btn_primary" id="get_customDate_transaction">Get Transactions</button>
+                    </div>
+                </div>
+                <label for="transaction_search" class="transaction_search">
+                    <input type="text" name="transaction_search" id="transaction_search" placeholder="Search for customer name">
+                </label>
+                <div class="transaction_table_wrapper">
+                    <div class="transaction_table_container">
+                        <table id="transaction_section_table">
+                            <thead>
+                            <tr>
+                                <th><i class="uil uil-user-square"></i> Customer</th>
+                                <th class="cart_price_column_sm"><i class="uil uil-phone-volume"></i> Contact</th>
+                                <th class="cart_price_column_sm"><i class="uil uil-calendar-alt"></i> Date</th>
+                                <th class="cart_price_column_sm"><i class="uil uil-clock-five"></i> Time</th>
+                                <th>QTY</th>
+                                <th>Total<span class="lg_text">(GH&#8373)</span></th>
+                                <th class="cart_price_column_sm"><i class="uil uil-money-withdrawal"></i> Sales-Person</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="transaction_section_table_body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Transaction Content -->
+
+            <!-- Invoice Content -->
+            <div class="content_container invoice_content">
+                <div class="invoice_header">Invoice</div>
+                <button class="btn btn_secondary invoice_previous_btn" id="invoice_previous_btn"><i class="uil uil-arrow-left"></i> Previous</button>
+
+                <div class="invoice_generation_wrapper">
+                    <div class="invoice_left">
+                        <div class="invoice_left_top">
+                            <div class="header_customer">Customer Details</div>
+                            <div class="customer_details_group">
+                                <label for="invoice_customer_name">
+                                    <input type="text" name="invoice_customer_name" id="invoice_customer_name" placeholder="Enter customer name">
+                                </label>
+                                <label for="invoice_customer_phone" class="invoice_customer_phone">
+                                    <input type="tel" name="invoice_customer_phone" maxlength="10" id="invoice_customer_phone" placeholder="Contact">
+                                </label>
+                            </div>
+                            <label for="customer_email" class="customer_email">
+                                <input type="email" name="customer_email" id="customer_email" placeholder="Enter customer email" required>
+                            </label>
+                        </div>
+                        <div class="invoice_left_bottom">
+                            <div class="invoice_left_bottom_wrapper">
+                                <label for="invoice_product_search" class="invoice_product_search">
+                                    <input type="text" name="invoice_product_search" id="invoice_product_search" placeholder="Search for product name">
+                                    <span class="search_icon"><i class="uil uil-search"></i></span>
+                                </label>
+                                <div class="invoice_table_wrapper">
+                                    <table id="invoice_section_table">
+                                        <thead>
+                                        <tr>
+                                            <th>Product</th>
+                                            <th>Price(GH&#8373)</th>
+                                            <th>Action</th>
+                                        </tr>
+                                        </thead>
+                                        <tbody id="invoice_section_table_body">
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="invoice_right">
+                        <div class="add_invoice_table_container">
+                            <table id="add_invoice_section_table">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price<span class="lg_text">(GH&#8373)</span></th>
+                                    <th>QTY</th>
+                                    <th>Total<span class="lg_text">(GH&#8373)</span></th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="add_invoice_table_body">
+
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="invoice_generate_btns">
+                            <span class="total_invoice_value"><b>Total:</b><p id="total_invoice_value">0.00</p></span>
+                            <button class="btn btn_danger" id="clearTable_invoice_btn">Clear<i class="uil uil-trash-alt"></i></button>
+                            <button class="btn btn_primary" id="generate_invoice_btn">Invoice<i class="uil uil-arrow-right"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- print invoice section -->
+                <div class="invoice_print_wrapper">
+                    <div class="invoice_print_sectionWrapper">
+                        <div class="invoicePrint_body_top">
+                            <div class="companyDetails">
+                                <span class="companyDetails_left">
+                                    <h3 class="business_name">ROCKMART CATERING SERVICES</h3>
+                                    <h3 class="business_name">INVOICE</h3>
+                                </span>
+                                <span class="companyDetails_right">
+                                    <span class="invoice_labels"><b>Address:</b> P. O. Box Af46, Koforidua, Ghana</span>
+                                    <span class="invoice_labels"><b>Email:</b> rockmartcatering@gmail.com</b></span>
+                                    <span class="invoice_labels"><b>Contact:</b> 024 064 9705</span>
+                                </span>
+                            </div>
+                            <div class="invoiceDetails">
+                                <span class="invoice_labels"><b>Invoice No:</b><span id="invoice_number"></span></span>
+                                <span class="invoice_labels"><b>Invoice Date:</b><span id="invoice_date"></span></span>
+                            </div>
+                            <div class="customerDetails">
+                                <h3>Invoiced To:</h3>
+                                <span class="invoice_labels"><b>Name:</b><span id="customer_namePrint"></span></span>
+                                <span class="invoice_labels"><b>Email:</b><span id="customer_emailPrint"></span></span>
+                                <span class="invoice_labels"><b>Telephone:</b><span id="customer_telephonePrint"></span></span>
+                            </div>
+                        </div>
+                        <div class="invoicePrint_table_wrapper">
+                            <table id="invoicePrint_table">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Unit-Price(GH&#8373)</th>
+                                    <th>QTY</th>
+                                    <th>Total (GH&#8373)</th>
+                                </tr>
+                                </thead>
+                                <tbody id="invoicePrint_table_body">
+                                <!--Generated invoice body -->
+                                </tbody>
+                                <tr><td></td><td></td><td class="invoicePrint_total"><b >Total</b></td><td id="invoicePrint_total"></td></tr>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="print_invoice_btns">
+                        <button class="btn btn_primary" id="invoice_download_btn">Download <i class="uil uil-cloud-download"></i></button>
+                        <button class="btn btn_primary" id="invoice_print_btn">Print <i class="uil uil-print"></i></button>
+                    </div>
+                </div>
+            </div>
+            <!-- Invoice Content -->
+
+            <!-- Customers -->
+            <div class="content_container customer_content">
+                <div class="customer_header">Customers</div>
+                <label for="customers_search" class="customers_search_label">
+                    <input type="text" name="customers_search" id="customers_search" placeholder="Search customer's name">
+                    <span class="customer_search_i search_icon"><i class="uil uil-search"></i></span>
+                </label>
+                <div class="customers_table_wrapper">
+                    <table id="customers_table">
+                        <thead>
+                        <tr>
+                            <th>Customer <span class="lg_text"><i class="uil uil-user-square"></i></span></th>
+                            <th>Contact<span class="lg_text"><i class="uil uil-phone-volume"></i></span></th>
+                            <th class="lg_text">Email <span class="lg_text"><i class="uil uil-envelope"></i></span></th>
+                            <th class="lg_text">Trans No.</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody id="customers_table_body">
+                        <!--Generated customer content -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!-- Customers -->
+
+            <!-- Product Content -->
+            <div class="content_container content_addProduct">
+                <div class="products_header">Add A New Product</div>
+                <div class="add_product_form_container">
+
+                    <div class="add_product_form">
+                        <div class="create_category">
+                            <label for="create_product_category">Create a new category: </label>
+                            <div class="create_product_category_wrapper" title="You can create a new category before adding a new product">
+                                <input type="text" name="create_product_category" id="create_product_category" placeholder="Enter category name" required>
+                                <button type="button" id="save_category_btn" class="btn btn_primary">Save</button>
+                            </div>
+                        </div>
+                        <div class="add_new_product_form">
+                            <div class="add_new_product_wrapper">
+                                <div class="add_product_form_group">
+                                    <label for="select_product_Category">Product Category: </label>
+                                    <select name="productCategory" id="select_product_Category">
+                                        <option value="0">Select Category</option>
+                                    </select>
+                                </div>
+                                <div class="add_product_form_group">
+                                    <label for="new_productName">Product Name: </label>
+                                    <input type="text" name="new_productName" id="new_productName" placeholder="Enter new product name" required>
+                                </div>
+                                <div class="add_product_form_group add_price_restockLevel">
+                                    <div class="add_price_wrapper">
+                                        <label for="new_productPrice">Product Price: </label>
+                                        <input type="number" name="productPrice" id="new_productPrice" min="0"step="0.01" value="0.00" required>
+                                    </div>
+                                    <div class="add_restockLevel_wrapper">
+                                        <label for="restock_level">Restock Level: </label>
+                                        <input type="number" name="restock_level" id="restock_level" min="0"step="0" value="0" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="Add_product_form_btn">
+                                <button type="reset" class="btn btn_secondary resetAdded_product">Reset <i class="uil uil-0-plus"></i></button>
+                                <button class="btn btn_primary add_product_btn" id="add_product_btn">Add product <i class="uil uil-plus-circle"></i></button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="show_AddedProduct_Container">
+                        <div class="added_form_header">Added Product</div>
+                        <div class="add_product_table_wrapper">
+                            <div class="add_product_table_container">
+                                <table id="show_AddedProduct_table">
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price<span class="lg_text">(GH&#8373)</span></th>
+                                        <th>Category</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tbody id="added_Product_table_body">
+                                    </tbody>
+                                </table>
+                            </div>
+                            <button class="btn btn_primary upload_addedProduct_btn"><i class="uil uil-upload"></i> Upload</button>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+            <!-- Add product Content -->
+
+            <!-- Product Inventory Content -->
+            <div class="content_container content_product_inventory">
+                <div class="inventory_header">Product Inventory</div>
+                <button class="productHistory_previousBtn btn btn_primary">Previous</button>
+                <button class="productHistory_btn btn btn_primary">Product History</button>
+                <div class="inventory_wrapper">
+                    <div class="inventory_left">
+                        <label for="inventory_product_search" class="inventory_search_label">
+                            <input type="text" name="inventory_product_search" id="inventory_product_search" placeholder="Search for product name">
+                            <span class="search_icon"><i class="uil uil-search"></i></span>
+                        </label>
+                        <div class="inventory_table_wrapper">
+                            <table id="inventory_section_table">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th>Price<span class="lg_text">(GH&#8373)</span></th>
+                                    <th><p class="lg_text">Quantity</p><p class="sm_text">A/Q</p></th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="inventory_section_table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="inventory_right">
+                        <div class="inventory_right_top">
+                            <label for="inventory_product_category" class="inventory_category_label">Edit a product category </label>
+                            <div class="inventory_category_group">
+                                <select name="productCategory" id="inventory_product_category">
+                                    <option value="0">Select Category</option>
+                                </select>
+                                <button class="btn btn_danger" id="edit_category_btn">Edit <i class="uil uil-edit-alt"></i></button>
+                            </div>
+
+                        </div>
+                        <div class="inventory_right_bottom">
+                            <div class="edit_product_header">Edit Product</div>
+                            <div class="edit_product_group">
+                                <label for="edit_productName">Product Name: </label>
+                                <input type="text" name="edit_productName" id="edit_productName" placeholder="Edit product name" required>
+                            </div>
+                            <div class="edit_product_group">
+                                <label for="edit_productPrice">Product Price: </label>
+                                <input type="number" name="edit_productPrice" id="edit_productPrice" min="0"step="0.01" value="0.00" required>
+                            </div>
+                            <div class="restock_and_quantity_group">
+                                <div class="edit_product_group">
+                                    <label for="edit_restock_level">Restock Level: </label>
+                                    <input type="number" name="edit_restock_level" id="edit_restock_level" min="0"step="0" value="0" required>
+                                </div>
+                                <div class="edit_product_group">
+                                    <label for="edit_quantity">Quantity: </label>
+                                    <input type="number" name="edit_quantity" id="edit_quantity" min="0"step="0" value="0" required>
+                                </div>
+                            </div>
+                            <button class="btn btn_primary" id="save_edit_product_btn">Save <i class="uil uil-save"></i></button>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Product History content-->
+                <div class="productHistory_wrapper">
+                    <div class="productHistory_top">
+                        <div class="productHistory_left">
+                            <span class="productHistoryLeft_text">Retrieve All Product History: </span>
+                            <button class="btn btn_primary" id="get_all_productHistory">All History</button>
+                        </div>
+                        <div class="productHistory_right">
+                            <div class="productHistoryDate_wrapper">
+                                <span class="productHistory_date">Date: </span>
+                                <label class="productHistory_date_label" for="productHistory_date"><input type="date" name="productHistory_date" id="productHistory_date" pattern="yyyy-MM-dd"></label>
+                            </div>
+                            <button class="btn btn_primary" id="get_customDate_productHistory">Get History</button>
+                        </div>
+                    </div>
+                    <label for="productHistory_search" class="productHistory_search">
+                        <input type="text" name="productHistory_search" id="productHistory_search" placeholder="Search for product name">
+                    </label>
+                    <div class="productHistory_bottom">
+                        <div class="productHistory_table_container">
+                            <table id="productHistory_section_table">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="cart_price_column_sm">Date</th>
+                                    <th class="cart_price_column_sm">Time</th>
+                                    <th class="cart_price_column_sm">Old QTY</th>
+                                    <th>Updated QTY</th>
+                                    <th class="cart_price_column_sm">New QTY</th>
+                                    <th>User</th>
+                                </tr>
+                                </thead>
+                                <tbody id="productHistory_section_table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <!-- Product History content-->
+            </div>
+            <!-- Product Inventory Content -->
+
+            <!-- REPORTS CODES -->
+            <div class="content_container report_content">
+                <div class="report_header">Reports</div>
+                <button class="btn btn_secondary" id="inventory_previous_btn"><i class="uil uil-arrow-left"></i> Previous</button>
+                <div class="report_content_wrapper">
+                    <div class="report_wrapper_top">
+                        <div class="report_wrapper_top_left">
+                            <span class="generate_daily_text">Generate today's report here: </span>
+                            <button class="btn btn_primary" id="generate_daily_btn">Generate Daily Report</button>
+                        </div>
+                        <div class="report_wrapper_top_right">
+                            <div class="date_wrapper">
+                                <span class="from_date_text">From: </span>
+                                <label for="report_from_date"><input type="date" name="" id="report_from_date" pattern="yyyy-MM-dd"></label>
+                                <span class="to_date_text">To:</span>
+                                <label for="report_to_date"><input type="date" name="" id="report_to_date" pattern="yyyy-MM-dd"></label>
+                            </div>
+                            <button class="btn btn_primary" id="custom_date_btn">Generate Report</button>
+                        </div>
+                    </div>
+                    <div class="report_wrapper_bottom">
+                        <div class="report_body_wrapper">
+                            <div class="report_body_down">
+                                <table id="report_section_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Product Category</th>
+                                        <th><p class="lg_text">Sold Quantity</p><p class="sm_text">S/Q</p></th>
+                                        <th>Bal(GH&#8373)</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="report_table_body">
+                                    <!--Generated Report body -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <button class="btn btn_primary" id="report_next_btn">Next to Download<i class="uil uil-arrow-right"></i></button>
+                    </div>
+                </div>
+                <div class="report_download_section_container">
+                    <div class="report_download_section">
+                        <div class="report_body_top">
+                            <div class="companyDetails">
+                                <span class="companyDetails_left">
+                                    <h3 class="business_name">ROCKMART CATERING SERVICES</h3>
+                                    <h3 class="business_name">REPORT</h3>
+                                </span>
+                                <span class="companyDetails_right">
+                                    <span class="invoice_labels"><b>Address:</b> P. O. Box Af46, Koforidua, Ghana</span>
+                                    <span class="invoice_labels"><b>Email:</b> rockmartcatering@gmail.com</b></span>
+                                    <span class="invoice_labels"><b>Contact:</b> 024 064 9705</span>
+                                </span>
+                            </div>
+                            <div class="report_body_top_right">
+                                <span class="report_current_year">Year: <span id="current_year"></span></span>
+                                <span class="report_current_year">Date: <span id="report_date"></span></span>
+                            </div>
+                        </div>
+                        <div class="report_body_table_wrapper">
+                            <table id="report_download_table">
+                                <thead>
+                                <tr>
+                                    <th>Date</th>
+                                    <th>Product Category</th>
+                                    <th><p class="lg_text">Sold Quantity</p><p class="sm_text">S/QTY</p></th>
+                                    <th>Bal(GH&#8373)</th>
+                                </tr>
+                                </thead>
+                                <tbody id="report_download_table_body">
+                                <!--Generated Report body -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <button class="btn btn_primary" id="report_download_btn">Download <i class="uil uil-cloud-download"></i></button>
+                </div>
+            </div>
+
+            <!-- REPORTS CODES -->
+
+            <!-- Add User Account -->
+            <div class="content_container content_account_settings">
+                <h1 class="account_header" th:id= "'header_'+${#authentication.principal.id ?: 'N/A'}">Account Settings</h1>
+                <div class="account_wrapper">
+                    <div class="user_account_form">
+                        <div class="account_form_header">Reset Your Password</div>
+                        <div class="password_form_group">
+                            <label for="current_password">Current Password: </label>
+                            <div class="passwords_wrapper">
+                                <input type="password" name="current_password" id="current_password">
+                                <span class="toggle_password_icon" id="current_password_toggle"><i class="uil uil-eye-slash"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="password_form_group">
+                            <label for="new_password">New Password: </label>
+                            <div class="passwords_wrapper">
+                                <input type="password" name="new_password" id="new_password">
+                                <span class="password_hint">Password must be at least 8 characters</span>
+                                <span class="toggle_password_icon" id="new_password_toggle"><i class="uil uil-eye-slash"></i></span>
+                            </div>
+                        </div>
+
+                        <div class="password_form_group">
+                            <label for="confirm_password">Confirm Password: </label>
+                            <div class="passwords_wrapper">
+                                <input type="password" name="confirm_password" id="confirm_password">
+                                <span class="password_mismatch">Password does not match</span>
+                                <span class="toggle_password_icon" id="confirm_password_toggle"><i class="uil uil-eye-slash"></i></span>
+                            </div>
+                        </div>
+
+                        <button type="submit" id="change_password_submit_btn" class="btn btn_primary"><i class="uil uil-cloud-upload"></i>Submit</button>
+                    </div>
+                    <div class="account_register_section">
+                        <div class="account_register_top">
+                            <div class="account_register_header">Register a new User</div>
+                            <div class="account_register_group">
+                                <label for="firstname">
+                                    <input type="text" name="firstname" id="firstname" placeholder="Enter firstname" required>
+                                </label>
+                                <label for="lastname">
+                                    <input type="text"  name="lastname" id="lastname" placeholder="Enter lastname" required>
+                                </label>
+                            </div>
+                            <div class="account_register_group">
+                                <label for="username">
+                                    <input type="text" name="username" id="username" placeholder="Enter username" required>
+                                </label>
+                                <label for="role">
+                                    <select  name="role" id="role" required>
+                                        <option value="0">Select Role</option>
+                                        <option value="Sales-Person">Sale-Person</option>
+                                        <option value="Admin">Admin</option>
+                                    </select>
+                                </label>
+                            </div>
+                            <button class="btn btn_primary" id="btn_register_user"><i class="uil uil-user-plus"></i>Register</button>
+                        </div>
+                        <div class="account_register_bottom">
+                            <div class="account_table_wrapper">
+                                <table id="account_table">
+                                    <thead>
+                                    <tr>
+                                        <th>User</th>
+                                        <th>Role</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="account_table_body">
+
+                                    <!--Generated Report body -->
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Add User Account -->
+            </div>
+        </div>
+        <!-- Main Content -->
+    </div>
+    <!-- ===========ALERT MESSAGE=========== -->
+    <section class="message_alert_main">
+        <div class="message_alert_container">
+            <div class="message_alert_header">
+                <span class="message_alert_close_btn"><i class="uil uil-times"></i></span>
+                <span class="message_alert_head">Inventory Alert</span>
+            </div>
+            <div class="message_alert_content" id="message_alert_content">
+                <!-- Content of the notification -->
+                <!-- Content of the notification -->
+            </div>
+        </div>
+    </section>
+    <!-- ===========ALERT MESSAGE=========== -->
+</main>
+<!-- ===========MAIN=========== -->
+<!-- ===========OTHER=========== -->
+<div class="show_product_stock_Update">
+    <p id="show_product_stock_Update"></p>
+</div>
+<div sec:authorize="isAuthenticated()">
+    <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form>
+</div>
+<!-- ==================OTHER================== -->
+<script th:src="@{/script/admin.js}"></script>
+<script src="../static/script/admin.js"></script>
+<script th:src="@{/script/sweetAlerts.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.2/html2pdf.bundle.min.js"></script>
+</body>
+</html>

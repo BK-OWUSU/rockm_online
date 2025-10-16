@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--IconScout Icons Link-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+    <title>Rockmart Services</title>
+</head>
+<body>
+ <!-- ===========NAVBAR=========== -->
+ <nav>
+    <div class="container_2 nav_container">
+        <span class="logo_text">Rockmart</span>
+         <div class="logo">
+            <a><img th:src="@{/img/rock_logo.jpg}" alt="logo" src=""></a>
+        </div>
+    </div>
+</nav>
+<!-- ===========NAVBAR=========== -->
+
+
+<section class="loginRegister_form container">
+    <div class="form_wrapper">
+        <!--Registration success message-->
+        <div class="sign_logo"><i class="uil uil-user"></i></div>
+        <h1 class="sign_header">SIGN IN HERE</h1>
+        <!--Registration success message-->
+        <div th:if ="${param.error}">
+            <p class="alert_info_danger">Wrong email or password</p>
+        </div>
+        <div th:if ="${param.logout}">
+            <p class="alert_info_success">You have logged out!!!</p>
+        </div>
+        <!--Registration success message-->
+
+        <form th:action="@{/user/login}" method="post">
+            <div class="input_box">
+                <label for="username">
+                    <input type="text" name="username" id="username" placeholder="Username" required autocomplete>
+                </label>
+                <label for="password" class="passwords_wrapper">
+                    <input type="password" name="password" id="password" placeholder="Password" required>
+                    <span class="toggle_password_icon" id="password_toggle"><i class="uil uil-eye-slash"></i></span>
+                </label>
+            </div>
+            <button class="btn_signRegister btn btn_primary">Sign In</button>
+        </form>
+    </div>
+</section>
+
+<script src="/" th:src="@{/script/login.js}"></script>
+</body>
+</html>

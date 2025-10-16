@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml" xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet"  th:href="@{/css/style.css}">
+    <link rel="stylesheet" th:href="@{/css/user.css}">
+    <!--IconScout Icons Link-->
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.8/css/line.css">
+    <!-- Apexcharts -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/apexcharts/3.50.0/apexcharts.min.css" integrity="sha512-YEwcgX5JXVXKtpXI4oXqJ7GN9BMIWq1rFa+VWra73CVrKds7s+KcOfHz5mKzddIOLKWtuDr0FzlTe7LWZ3MTXw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>User Dashboard</title>
+</head>
+<body>
+<!-- ===========NAVBAR=========== -->
+<nav>
+    <div class="container_2 nav_container">
+        <div class="logo_wrapper">
+            <div class="logo">
+                <a href="#"><img th:src="@{/img/rock_logo.jpg}" alt="logo"  src="/"></a>
+            </div>
+            <span class="logo_text">Rockmart</span>
+        </div>
+        <span class="phone_right_menu_icons">
+                <span class="alert_btn">
+                    <i class="uil uil-bell"></i>
+                    <span id="nav_alerts_number">0</span>
+                </span>
+                <button class="open_menu_btn"><i class="uil uil-list-ui-alt"></i></button>
+            </span>
+        <div class="slide_menu">
+            <div class="slide_menu_content">
+                <span class="phone_close_btn"><i class="uil uil-times"></i></span>
+                <div class="slide_menu_user_account">
+                    <span class="user_account_icon"><i class="uil uil-user-circle"></i></span>
+                    <span th:text="${#authentication.principal.firstname ?: 'N/A'}" class="username"></span>
+                </div>
+                <a class="menu_items_sm"><span><i class="uil uil-create-dashboard"></i></span><span class="sidebar_links_sm">Dashboard</span></a>
+                <a class="menu_items_sm"><span><i class="uil uil-shopping-cart-alt"></i></span><span class="sidebar_links_sm">Sell</span></a>
+                <a class="menu_items_sm"><span><i class="uil uil-transaction"></i></span><span class="sidebar_links_sm">Transactions</span></a>
+                <a class="menu_items_sm"><span><i class="uil uil-truck-loading"></i></span><span class="sidebar_links_sm">Products Stock</span></a>
+                <a class="menu_items_sm"><span><i class="uil uil-user-exclamation"></i></span><span class="sidebar_links_sm">Account</span></a>
+                <a class="menu_items_sm"><span><i class="uil uil-signout"></i></span><span class="sidebar_links_sm">Sign Out</span></a>
+            </div>
+        </div>
+    </div>
+</nav>
+<!-- ===========NAVBAR=========== -->
+
+
+<!-- ===========MAIN=========== -->
+<main>
+    <div class="main_container container_2">
+        <!-- SideBar -->
+        <div class="main_sidebar">
+            <div class="sidebar_menu">
+                <div class="sidebar_menu_user_account">
+                    <span class="sidebar_user_account_icon"><i class="uil uil-user-circle"></i></span>
+                    <span th:text="${#authentication.principal.firstname ?: 'N/A'}" class="sidebar_username"></span>
+                </div>
+                <a class="menu_items active dashboard"><span><i class="uil uil-create-dashboard"></i></span><span class="sidebar_links">Dashboard</span></a>
+                <a class="menu_items sales"><span><i class="uil uil-shopping-cart-alt"></i></span><span class="sidebar_links">Sell</span></a>
+                <a class="menu_items sales"><span><i class="uil uil-transaction"></i></span><span class="sidebar_links">Transactions</span></a>
+                <a class="menu_items product_stock"><span><i class="uil uil-truck-loading"></i></span><span class="sidebar_links">Products Stock</span></a>
+                <a class="menu_items add_product"><span><i class="uil uil-user-exclamation"></i></span><span class="sidebar_links">Account</span></a>
+                <a class="menu_items sign_out"><span><i class="uil uil-signout"></i></span><span class="sidebar_links">Sign Out</span></a>
+            </div>
+        </div>
+        <!-- SideBar -->
+
+        <!-- Main Content -->
+        <div class="main_content">
+            <!-- Dashboard Content -->
+            <div class="content_container content_dashboard">
+                <h1 class="dashboard_header">Dashboard</h1>
+                <div class="dashboard_top_bottom_wrapper">
+                    <div class="dashboard_top">
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">A/V Product</span>
+                                <i class="card_icon uil uil-box"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_available_products">0</span>
+                        </div>
+                        <!-- cards -->
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">Sold</span>
+                                <i class="card_icon uil uil-archive"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_total_quantitySold_value">0</span>
+                        </div>
+                        <!-- cards -->
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">Total Sale</span>
+                                <i class="card_icon uil uil-euro-circle"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_total_sale_value"> 0.00</span>
+                        </div>
+                        <!-- cards -->
+                        <!-- cards -->
+                        <div class="dashboard_top_card">
+                            <div class="dashboard_top_card_titles">
+                                <span class="card_title_left">Alerts</span>
+                                <i class="card_icon uil uil-bell"></i>
+                            </div>
+                            <span class="card_digit" id="dashboard_restock_notify_count">0</span>
+                        </div>
+                        <!-- cards -->
+
+                    </div>
+                    <div class="dashboard_bottom">
+                        <div class="current_sale_container">
+                            <table id="currentSale_table">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th class="lg_text">Price<span class="lg_text">(GH&#8373)</span></th>
+                                    <th>A/QTY</th>
+                                    <th>S/QTY</th>
+                                    <th>Total<span class="lg_text">(GH&#8373)</span></th>
+                                </tr>
+                                </thead>
+                                <tbody id="currentSale_table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Dashboard Content -->
+
+            <!-- Sales Content -->
+            <div class="content_container content_sales" th:id= "'sale_'+${#authentication.principal.id ?: 'N/A'}">
+                <div class="sales_header">Sales</div>
+
+                <div class="sales_content_container">
+                    <div class="top_content_sales">
+                        <div class="search_and_customer_wrapper">
+                            <label for="customer_name">
+                                <input type="text" name="customer_name" id="customer_name" placeholder="Enter customer name">
+                            </label>
+                            <label for="customer_telephone">
+                                <input type="tel" name="customer_telephone" maxlength="10" id="customer_telephone" placeholder="Mobile phone">
+                            </label>
+                            <label for="product_search">
+                                <input type="text" name="sales_search" id="product_search" placeholder="Search for product name">
+                            </label>
+                        </div>
+                        <div class="category_product_select">
+                            <select id="category_dropdown">
+                                <option value="0">Select Category</option>
+                            </select>
+                            <label for="selected_Quantity"><input type="text" id="selected_Quantity" name="selected_Quantity" placeholder="Enter product quantity"></label>
+                            <select id="product_dropdown"></select>
+                        </div>
+                        <div class="cart_delete_btns">
+                            <button id="add_to_cart_btn" class="btn btn_primary"><i class="uil uil-shopping-cart-alt"></i>Add to Cart</button>
+                            <button id="delete_all_cart_btn" class="btn btn_danger"><i class="uil uil-trash-alt"></i>Delete All</button>
+                        </div>
+                    </div>
+
+                    <div class="add_to_cart_table_wrapper">
+                        <div class="add_to_cart_table-container">
+                            <table id="sales_section_table">
+                                <thead>
+                                <tr>
+                                    <th>Product</th>
+                                    <th><span class="lg_text">Quantity</span><span class="sm_text">QTY</span></th>
+                                    <th class="cart_price_column_sm">Unit Price(GH&#8373)</th>
+                                    <th>Total</th>
+                                    <th>Action</th>
+                                </tr>
+                                </thead>
+                                <tbody id="add_to_cart_table_body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="sale_summary_cont">
+                            <div class="customer_purchase_info">
+                                <span class="customer_name_label">Name: <p id="customer_name_value"></p></span>
+                            </div>
+                            <div class="sale_submit_btn_cont">
+                                <label class="total_price_label" for="total_price">Total price (GH&#8373):
+                                    <input type="number" name="total_price" id="total_price" placeholder="0.00" readonly>
+                                </label>
+                                <button id="submit_cart_btn" class="btn btn_primary">Sell</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+            </div>
+            <!-- Sales Content -->
+
+            <!-- Transaction Content -->
+            <div class="content_container transaction_content">
+                <div class="transaction_header">Sale Transactions</div>
+                <label for="transaction_search" class="transaction_search">
+                    <input type="text" name="transaction_search" id="transaction_search" placeholder="Search for customer name">
+                </label>
+                <div class="transaction_table_wrapper">
+                    <div class="transaction_table_container">
+                        <table id="transaction_section_table">
+                            <thead>
+                            <tr>
+                                <th>Customer</th>
+                                <th class="cart_price_column_sm">Contact</th>
+                                <th class="cart_price_column_sm">Time</th>
+                                <th>QTY</th>
+                                <th>Total(GH&#8373)</th>
+                                <th>Action</th>
+                            </tr>
+                            </thead>
+                            <tbody id="transaction_section_table_body">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <!-- Transaction Content -->
+
+
+            <!-- Product Stock Content -->
+            <div class="content_container content_productStock">
+                <div class="product_stock_top">
+                    <h1 class="stock_header">Products In Stock</h1>
+                    <div class="stockBtn_tap_wrapper">
+                        <button class="stock_tab active" id="stock_tab_single">Inventory</button>
+                        <button class="stock_tab" id="stock_tab_multiple">Restock</button>
+                    </div>
+                </div>
+
+                <div class="stock_slide_wrapper" id="stock_slide_wrapper">
+                    <div class="stock_update_single_wrapper">
+                        <label for="stock_product_search" class="stock_product_search">
+                            <input type="text" name="stock_product_search" id="stock_product_search" placeholder="Search for product name">
+                        </label>
+                        <div class="stock_table_wrapper">
+                            <div class="stock_table_container">
+                                <table id="stock_section_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price-(GH&#8373)</th>
+                                        <th><p class="lg_text">Available Quantity</p><p class="sm_text">A/Q</p></th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="stock_single_section_table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="stock_update_multiple_wrapper">
+                        <div class="stock_table_wrapper">
+                            <div class="stock_table_container">
+                                <table id="multiple_section_table">
+                                    <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Price(GH&#8373)</th>
+                                        <th><p class="lg_text">Available Quantity</p><p class="sm_text">A/Q</p></th>
+                                        <th class="lg_text">Updated Quantity</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody id="stock_multiple_section_table">
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <div class="stock_submit_btn_cont">
+                            <button id="stock_batch_submit_btn" class="btn btn_primary"><i class="uil uil-upload-alt"></i>Update Batch</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <!-- Product Stock Content -->
+
+
+
+            <!-- Add User Account -->
+            <div class="content_container content_account_settings">
+                <h1 class="account_header">Account Settings</h1>
+                <div class="user_account_form">
+                    <div class="account_form_header">Reset Your Password</div>
+                    <div class="password_form_group">
+                        <label for="current_password">Current Password: </label>
+                        <div class="passwords_wrapper">
+                            <input type="password" name="current_password" id="current_password">
+                            <span class="toggle_password_icon" id="current_password_toggle"><i class="uil uil-eye-slash"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="password_form_group">
+                        <label for="new_password">New Password: </label>
+                        <div class="passwords_wrapper">
+                            <input type="password" name="new_password" id="new_password">
+                            <span class="password_hint">Password must be at least 8 characters</span>
+                            <span class="toggle_password_icon" id="new_password_toggle"><i class="uil uil-eye-slash"></i></span>
+                        </div>
+                    </div>
+
+                    <div class="password_form_group">
+                        <label for="confirm_password">Confirm Password: </label>
+                        <div class="passwords_wrapper">
+                            <input type="password" name="confirm_password" id="confirm_password">
+                            <span class="password_mismatch">Password does not match</span>
+                            <span class="toggle_password_icon" id="confirm_password_toggle"><i class="uil uil-eye-slash"></i></span>
+                        </div>
+                    </div>
+                    <button type="submit" id="change_password_submit_btn" class="btn btn_primary">Submit</button>
+                </div>
+            </div>
+            <!-- Add User Account -->
+        </div>
+    </div>
+    <!-- Main Content -->
+    <!-- ===========ALERT MESSAGE=========== -->
+    <section class="message_alert_main">
+        <div class="message_alert_container">
+            <div class="message_alert_header">
+                <span class="message_alert_close_btn"><i class="uil uil-times"></i></span>
+                <span class="message_alert_head">Inventory Alert</span>
+            </div>
+            <div class="message_alert_content" id="message_alert_content">
+                <!-- Content of the notification -->
+                <!-- Content of the notification -->
+            </div>
+        </div>
+    </section>
+    <!-- ===========ALERT MESSAGE=========== -->
+</main>
+<!-- ===========MAIN=========== -->
+
+
+<!-- ===========OTHER=========== -->
+<div class="show_product_stock_Update">
+    <p id="show_product_stock_Update"></p>
+</div>
+<div sec:authorize="isAuthenticated()">
+    <form id="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form>
+</div>
+<!-- ===========OTHER=========== -->
+<script th:src="@{script/sweetAlerts.js}"></script>
+<script th:src="@{/script/user.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+</body>
+</html>

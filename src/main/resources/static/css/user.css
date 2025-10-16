@@ -1,0 +1,44 @@
+main {
+    overflow: hidden;
+    position: relative;
+}
+
+.sm_btn {
+    display: flex;
+    flex-direction: row;
+    gap: 0.5rem;
+}
+.apexcharts-menu {
+    background: #000 !important;
+}
+
+.apexcharts-tooltip {
+    background: #f3f3f3;
+    color: rgb(15, 13, 12);
+}
+
+.apexcharts-menu-icon {
+    display: none !important;
+}
+
+/* Dashboard Products Status */
+.dashboard_bottom {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 50vh;
+}
+.current_sale_container {
+    overflow-y: auto;
+    height: 100%;
+    background: var(--color-white);
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}
+
+#currentSale_table thead,
+#currentSale_table th {
+    position: sticky;
+    top: 0;
+    font-size: 1rem;
+}
+/* Dashboard Products Status */
